@@ -1,0 +1,31 @@
+- рассмотр проблем
+- чат между двумя клиетами
+- чат групповой
+
+
+TicketConversation subject:string client:references manager:references status:integer
+TicketComment ticket_conversation:references user:references title:string description:string
+
+ClientConversation from_client:references to_client:references
+
+GroupConversation author:references
+GroupConversationUser group_conversation:references user:references
+
+Message conversation:references user:references value:text
+
+
+
+
+
+
+
+
+Ticket name:string status:integer user:references user_assigned_at:datetime
+TicketComment ticket:references user:references title:string description:string
+
+
+
+
+
+
+Report to_user:references from_user:references subject:string value:text status:integer

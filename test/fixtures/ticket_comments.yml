@@ -1,0 +1,36 @@
+# == Schema Information
+#
+# Table name: ticket_comments
+#
+#  id                     :bigint(8)        not null, primary key
+#  ticket_conversation_id :bigint(8)
+#  user_id                :bigint(8)
+#  title                  :string
+#  description            :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#
+# Indexes
+#
+#  index_ticket_comments_on_ticket_conversation_id  (ticket_conversation_id)
+#  index_ticket_comments_on_user_id                 (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (ticket_conversation_id => ticket_conversations.id)
+#  fk_rails_...  (user_id => users.id)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ticket_conversation: one
+  user: one
+  title: MyString
+  description: MyString
+
+two:
+  ticket_conversation: two
+  user: two
+  title: MyString
+  description: MyString

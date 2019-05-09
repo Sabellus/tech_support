@@ -1,0 +1,70 @@
+<%= form_for(@ticket_conversation, html: { class: "form-horizontal", role: "form" }) do |f| %>
+  <% if @ticket_conversation.errors.any? %>
+    <div class="alert alert-danger alert-dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4><%= pluralize(@ticket_conversation.errors.count, "error") %> prohibited this ticket_conversation from being saved:</h4>
+
+      <ul>
+      <% @ticket_conversation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+
+  <% if current_user.manager? %>
+    <div class="form-group">
+      
+    <%= f.label :client, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.label :client, @ticket_conversation.client.name %>
+    </div>
+
+    </div>
+    <div class="form-group">
+
+      <%= f.label :manager, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+       
+        <%= f.collection_select :manager, User.order(:email),:id,:email%>
+      </div>
+
+    </div>
+    <div class="form-group">
+
+      <%= f.label :status, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+      <%= f.select :status, TicketConversation.statuses.keys, {}%>
+      </div>
+
+    </div>
+    
+  <% else %>
+  <div class="form-group">
+    
+      <%= f.label :subject, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_field :subject, class: "form-control" %>
+      </div>
+    
+  </div>    
+  <% end %>
+  <div class="messages">
+    <%= f.fields_for :messages do |messages_form| %>
+      <div class="form-group">
+        <%= f.label :value, class: "col-sm-2 control-label" %>
+        <div class="col-sm-10">
+          <%= messages_form.text_field :value, class: "form-control" %>
+          
+        </div>
+      </div>
+    <% end %>
+  </div> 
+  <div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <%= f.submit class: "btn btn-primary" %>      
+  </div>
+  </div> 
+<% end %>
+
