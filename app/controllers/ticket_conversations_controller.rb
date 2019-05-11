@@ -23,8 +23,7 @@ class TicketConversationsController < ApplicationController
   # GET /ticket_conversations.json
   def index
     @ticket_conversations = TicketConversation.all
-    @grouped = @ticket_conversations.group_by { |el| el.status }
-    binding.pry
+   
   end
 
   # GET /ticket_conversations/1
@@ -41,6 +40,7 @@ class TicketConversationsController < ApplicationController
   # GET /ticket_conversations/1/edit
   def edit
     @ticket_conversation.messages.build
+    # binding.pry
   end
 
   # POST /ticket_conversations
