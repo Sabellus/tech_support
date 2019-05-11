@@ -68,8 +68,33 @@ class TicketConversationsController < ApplicationController
   def update
     ticket_params = ticket_conversation_params
     ticket_params[:messages_attributes].each { |k, v| ticket_params[:messages_attributes][k][:user_id] = current_user.id }
-   
+    
+    last_message = ticket_params[:messages_attributes].values.last
+    # binding.pry
+    parlast = 
+    {
+      value: last_message[:value],
+      user_id: current_user.id,       
+    }
+    params = ActionController::Parameters.new({
+      
+        value: last_message[:value],
+        user_id: current_user.id,
+      
+    })
+    binding.pry
+    ticket_params[:messages_attributes] = ActionController::Parameters.new({
+      
+     "0": params
+     
+    
+  })
+    binding.pry
     ticket_params[:messages_attributes] = ticket_params[:messages_attributes].reject { |k, v| v[:value].blank? } if ticket_params[:messages_attributes].present?
+    binding.pry
+    
+   
+    
     # binding.pry
 
     # например зашел в цикл на 200 элементов
@@ -80,7 +105,7 @@ class TicketConversationsController < ApplicationController
     puts ("ПАРАМЕТРЫ: #{ticket_params.inspect}")
     respond_to do |format|
       if @ticket_conversation.update(ticket_params)        
-        format.html { redirect_to @ticket_conversation, notice: 'Ticket conversation was successfully updated.' }
+        format.html { redirect_to edit_ticket_conversation_path, notice: 'Ticket conversation was successfully updated.' }
         format.json { render :show, status: :ok, location: @ticket_conversation }
       else
         format.html { render :edit }

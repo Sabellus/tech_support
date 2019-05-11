@@ -3,6 +3,7 @@ class DashboardController < ApplicationController
     case current_user.role
     when 'manager'
       @ticket_conversations = TicketConversation.where('manager_id IS NULL OR manager_id = ?', current_user.id)
+      # binding.pry
     when 'client'
       @ticket_conversations = TicketConversation.where(client: current_user)
     else
