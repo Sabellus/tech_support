@@ -23,10 +23,11 @@
 
 class TicketConversation < ApplicationRecord
   enum status: {
-    created: 0,
-    inprogress: 1,
-    finished: 2
+    "Создан": 0,
+    "В обработке": 1,
+    "Завершен": 2
   }
+  
 
   belongs_to :client, class_name: 'User'
   belongs_to :manager, class_name: 'User', optional: true

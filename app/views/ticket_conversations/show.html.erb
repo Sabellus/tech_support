@@ -17,11 +17,11 @@
   <dt>Клиент:</dt>
   <dd><%= @ticket_conversation.client.name %></dd>
 
-  <% if current_user.manager? %>
-  <dt>Менеджер:</dt>
-  <dd><%= @ticket_conversation.manager.name %></dd>
-  <% end %>
-
+   <% if current_user.manager? %>
+   <dt>Менеджер:</dt>
+   <dd><%= @ticket_conversation.manager&.name  %></dd>
+   <% end %>
+    
   <dt>Статус:</dt>
   <dd><%= @ticket_conversation.status %></dd>
 

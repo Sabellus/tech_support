@@ -37,6 +37,7 @@ class User < ApplicationRecord
   enum role: {
     manager: 0,
     client: 1,
+    admin: 2,
   }
   
   def name

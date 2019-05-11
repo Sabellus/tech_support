@@ -8,5 +8,7 @@ class DashboardController < ApplicationController
     else
       @ticket_conversations = TicketConversation.none
     end
+    @grouped = @ticket_conversations.group_by { |el| el.status }
+    # binding.pry
   end
 end

@@ -24,10 +24,10 @@
     </div>
     <div class="form-group">
 
-      <%= f.label :manager, class: "col-sm-2 control-label" %>
+      <%= f.label :manager_id, class: "col-sm-2 control-label" %>
       <div class="col-sm-10">
        
-        <%= f.collection_select :manager, User.order(:email),:id,:email%>
+        <%= f.collection_select :manager_id, User.order(:email),:id,:email%>
       </div>
 
     </div>
