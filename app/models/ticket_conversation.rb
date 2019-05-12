@@ -28,7 +28,7 @@ class TicketConversation < ApplicationRecord
     "Завершен": 2
   }
   
-
+  audited
   belongs_to :client, class_name: 'User'
   belongs_to :manager, class_name: 'User', optional: true
 
