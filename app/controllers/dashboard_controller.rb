@@ -6,6 +6,8 @@ class DashboardController < ApplicationController
       # binding.pry
     when 'client'
       @ticket_conversations = TicketConversation.where(client: current_user)
+    when 'admin'
+      @ticket_conversations = TicketConversation.all
     else
       @ticket_conversations = TicketConversation.none
     end

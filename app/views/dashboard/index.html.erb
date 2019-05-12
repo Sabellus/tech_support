@@ -4,13 +4,27 @@
 
 
 <% if true  %>
-<div class="page-header">
-  <%= link_to new_ticket_conversation_path, class: 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-plus"></span>
-    Создать новую заявку
+  <% if current_user.manager? %>
+    <div class="page-header">      
+      <h1>Мои тикеты</h1>
+    </div>
+  <% elsif current_user.client?%>
+    <div class="page-header">
+      <%= link_to new_ticket_conversation_path, class: 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-plus"></span>
+        Создать новую заявку
+      <% end %>
+      <h1>Мои заявки</h1>
+    </div>
+  <% elsif current_user.admin?%>
+  <div class="page-header">
+    <%= link_to new_ticket_conversation_path, class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      Создать новый тикет
+    <% end %>
+    <h1>Мои заявки</h1>
+    </div>
   <% end %>
-  <h1>Мои заявки</h1>
-</div>
 
 <% end %>
 

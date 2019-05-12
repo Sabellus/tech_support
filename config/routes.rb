@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   root to: 'dashboard#index'
 
+  get '/audit', to: 'audits#index'
+
   resources :ticket_conversations, only: [:show, :update, :create, :new, :edit]
   resources :users, only: [:index, :show, :update, :create, :new, :edit]
 

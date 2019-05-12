@@ -46,10 +46,14 @@ class TicketConversationsController < ApplicationController
   # POST /ticket_conversations
   # POST /ticket_conversations.json
   def create
-    @ticket_conversation = TicketConversation.new(ticket_conversation_params.merge(
-      client_id: current_user.id # формируем диалог с текущим клиентом
-    ))
+    # @ticket_conversation = TicketConversation.new(ticket_conversation_params.merge(
+    #   client_id: current_user.id # формируем диалог с текущим клиентом
+    # ))
+    ticket_params = ticket_conversation_params.merge(client_id: current_user.id)
+    ticket_params[:messages_attributes].each { |k, v| ticket_params[:messages_attributes][k][:user_id] = current_user.id }
 
+    @ticket_conversation = TicketConversation.new(ticket_params)
+    # binding.pry
     respond_to do |format|
       if @ticket_conversation.save
         format.html { redirect_to @ticket_conversation, notice: 'Ticket conversation was successfully created.' }
