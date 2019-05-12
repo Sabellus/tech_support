@@ -18,7 +18,7 @@
 # типа reject! сразу изменит текущий объект
 class TicketConversationsController < ApplicationController
   before_action :set_ticket_conversation, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /ticket_conversations
   # GET /ticket_conversations.json
   def index
@@ -46,11 +46,9 @@ class TicketConversationsController < ApplicationController
   # POST /ticket_conversations
   # POST /ticket_conversations.json
   def create
-    
-    ticket_params = ticket_conversation_params.merge(client_id: current_user.id)
-    ticket_params[:messages_attributes].each { |k, v| ticket_params[:messages_attributes][k][:user_id] = current_user.id }
-    
-    @ticket_conversation = TicketConversation.new(ticket_params)
+    @ticket_conversation = TicketConversation.new(ticket_conversation_params.merge(
+      client_id: current_user.id # формируем диалог с текущим клиентом
+    ))
 
     respond_to do |format|
       if @ticket_conversation.save
@@ -67,44 +65,13 @@ class TicketConversationsController < ApplicationController
   # PATCH/PUT /ticket_conversations/1.json
   def update
     ticket_params = ticket_conversation_params
+
+    # помечаем новые сообщения диалога текущим пользователем
     ticket_params[:messages_attributes].each { |k, v| ticket_params[:messages_attributes][k][:user_id] = current_user.id }
     
-    last_message = ticket_params[:messages_attributes].values.last
     # binding.pry
-    parlast = 
-    {
-      value: last_message[:value],
-      user_id: current_user.id,       
-    }
-    params = ActionController::Parameters.new({
-      
-        value: last_message[:value],
-        user_id: current_user.id,
-      
-    })
-    binding.pry
-    ticket_params[:messages_attributes] = ActionController::Parameters.new({
-      
-     "0": params
-     
-    
-  })
-    binding.pry
-    ticket_params[:messages_attributes] = ticket_params[:messages_attributes].reject { |k, v| v[:value].blank? } if ticket_params[:messages_attributes].present?
-    binding.pry
-    
-   
-    
-    # binding.pry
-
-    # например зашел в цикл на 200 элементов
- 
-    # 200 раз exit писать заебешься
- 
-    # disable-pry
-    puts ("ПАРАМЕТРЫ: #{ticket_params.inspect}")
     respond_to do |format|
-      if @ticket_conversation.update(ticket_params)        
+      if @ticket_conversation.update(ticket_params)
         format.html { redirect_to edit_ticket_conversation_path, notice: 'Ticket conversation was successfully updated.' }
         format.json { render :show, status: :ok, location: @ticket_conversation }
       else
@@ -113,6 +80,10 @@ class TicketConversationsController < ApplicationController
       end
     end
   end
+  
+    # binding.pry
+
+    
 
   # DELETE /ticket_conversations/1
   # DELETE /ticket_conversations/1.json
@@ -125,18 +96,24 @@ class TicketConversationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_ticket_conversation
-      @ticket_conversation = TicketConversation.includes(:messages).order('messages.created_at ASC').find(params[:id])
+      @ticket_conversation = TicketConversation.includes(messages: [:user]).order('messages.created_at ASC').find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_conversation_params
+      
+      # убираем пустые сообщения, и сообщения, уже имеющиеся в диалоге
+      params[:ticket_conversation][:messages_attributes].reject! { |k, v| v[:value].blank? || v[:id].present? } if params.dig(:ticket_conversation, :messages_attributes).present?
+      
+     
       if current_user.manager?
-        
-        params.require(:ticket_conversation).permit(:subject, :manager_id, :status, messages_attributes: [:value, :id])
+        # разрешаем менять менеджера, статус, писать новые сообщение
+        # тут отсекается все, кроме перечисленных полей
+        params.require(:ticket_conversation).permit(:manager_id, :status, messages_attributes: [:value])
       else
-        params.require(:ticket_conversation).permit(:subject, messages_attributes: [:value, :id])
+        # разрешаем менять тему, писать новые сообщение
+        # тут отсекается все, кроме перечисленных полей
+        params.require(:ticket_conversation).permit(:subject, messages_attributes: [:value])
       end
     end
 end
