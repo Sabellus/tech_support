@@ -10,7 +10,6 @@
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
-            <th>Subject</th>
             <th>Client</th>
             <th>Manager</th>
             <th>Status</th>
@@ -23,7 +22,6 @@
     <tbody>
       <% @ticket_conversations.each do |ticket_conversation| %>
         <%= content_tag :tr, id: dom_id(ticket_conversation), class: dom_class(ticket_conversation) do %>
-                      <td><%= ticket_conversation.subject %></td>
                       <td><%= ticket_conversation.client %></td>
                       <td><%= ticket_conversation.manager %></td>
                       <td><%= ticket_conversation.status %></td>

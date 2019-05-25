@@ -117,7 +117,7 @@ class TicketConversationsController < ApplicationController
       else
         # разрешаем менять тему, писать новые сообщение
         # тут отсекается все, кроме перечисленных полей
-        params.require(:ticket_conversation).permit(:subject, messages_attributes: [:value])
+        params.require(:ticket_conversation).permit(messages_attributes: [:value])
       end
     end
 end

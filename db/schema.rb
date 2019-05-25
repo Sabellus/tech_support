@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_12_063402) do
+ActiveRecord::Schema.define(version: 2019_05_25_192925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,31 @@ ActiveRecord::Schema.define(version: 2019_05_12_063402) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
+  create_table "client_conversations", force: :cascade do |t|
+    t.bigint "from_client_id"
+    t.bigint "to_client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["from_client_id"], name: "index_client_conversations_on_from_client_id"
+    t.index ["to_client_id"], name: "index_client_conversations_on_to_client_id"
+  end
+
+  create_table "group_conversation_users", force: :cascade do |t|
+    t.bigint "group_conversation_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_conversation_id"], name: "index_group_conversation_users_on_group_conversation_id"
+    t.index ["user_id"], name: "index_group_conversation_users_on_user_id"
+  end
+
+  create_table "group_conversations", force: :cascade do |t|
+    t.bigint "author_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_group_conversations_on_author_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.bigint "ticket_conversation_id"
     t.bigint "user_id"
@@ -59,7 +84,6 @@ ActiveRecord::Schema.define(version: 2019_05_12_063402) do
   end
 
   create_table "ticket_conversations", force: :cascade do |t|
-    t.string "subject"
     t.bigint "client_id"
     t.bigint "manager_id"
     t.integer "status"
@@ -87,6 +111,11 @@ ActiveRecord::Schema.define(version: 2019_05_12_063402) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "client_conversations", "users", column: "from_client_id"
+  add_foreign_key "client_conversations", "users", column: "to_client_id"
+  add_foreign_key "group_conversation_users", "group_conversations"
+  add_foreign_key "group_conversation_users", "users"
+  add_foreign_key "group_conversations", "users", column: "author_id"
   add_foreign_key "messages", "ticket_conversations"
   add_foreign_key "messages", "users"
   add_foreign_key "ticket_comments", "ticket_conversations"

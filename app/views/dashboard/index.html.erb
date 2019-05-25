@@ -34,7 +34,6 @@
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
-        <th>Тема</th>
         <th></th>
         <th></th>
         <th></th>
@@ -44,7 +43,6 @@
     <tbody>
       <% v.each do |ticket_conversation| %>
         <%= content_tag :tr, id: dom_id(ticket_conversation), class: dom_class(ticket_conversation) do %>
-          <td><%= ticket_conversation.subject %></td>
           <td><%= link_to 'П', ticket_conversation %></td>
           <td><%= link_to 'Р', edit_ticket_conversation_path(ticket_conversation) %></td>
           <td><%= link_to 'У', ticket_conversation, method: :delete, data: { confirm: 'Are you sure?' } %></td>

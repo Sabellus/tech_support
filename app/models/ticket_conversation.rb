@@ -3,7 +3,6 @@
 # Table name: ticket_conversations
 #
 #  id         :bigint(8)        not null, primary key
-#  subject    :string
 #  client_id  :bigint(8)
 #  manager_id :bigint(8)
 #  status     :integer

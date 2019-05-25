@@ -5,7 +5,7 @@
 #  id                     :bigint(8)        not null, primary key
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
-#  role                   :integer
+#  role                   :integer          default("client")
 #  first_name             :string
 #  last_name              :string
 #  gender                 :integer
