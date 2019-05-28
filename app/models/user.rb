@@ -16,11 +16,7 @@
 #  remember_created_at    :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#
-# Indexes
-#
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  authentication_token   :string
 #
 
 class User < ApplicationRecord
@@ -29,6 +25,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  before_save :ensure_authentication_token
   
   enum gender: {
     "Мужской": 0,
@@ -44,4 +41,23 @@ class User < ApplicationRecord
   def name
     "#{first_name} #{last_name}"
   end
+
+  def public_token
+    Base64.encode64("#{email}:#{authentication_token}").strip
+  end
+  
+  def ensure_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
+  end
+
+  private
+
+    def generate_authentication_token
+      loop do
+        token = Devise.friendly_token
+        break token unless User.where(authentication_token: token).first
+      end
+    end
 end

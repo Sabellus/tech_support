@@ -9,16 +9,6 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-# Indexes
-#
-#  index_ticket_conversations_on_client_id   (client_id)
-#  index_ticket_conversations_on_manager_id  (manager_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (client_id => users.id)
-#  fk_rails_...  (manager_id => users.id)
-#
 
 class TicketConversation < ApplicationRecord
   enum status: {

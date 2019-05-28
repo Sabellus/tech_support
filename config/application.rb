@@ -15,6 +15,12 @@ module TechSupport
       g.view_specs      false
       g.helper_specs    false
     end
+
+    config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+
+    config.action_cable.disable_request_forgery_protection = true
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
