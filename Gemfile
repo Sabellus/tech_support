@@ -27,11 +27,15 @@ gem 'devise', '~> 4.6.2'
 gem 'pry-rails', :group => :development
 gem "audited", "~> 4.7"
 
+gem "anycable-rails", "~> 0.6.3"
+gem "redis", "~> 4.1.1"
+
 gem 'bootstrap-generators', git: 'git://github.com/decioferreira/bootstrap-generators.git'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'bootstrap-sass', '~> 3.4.1'
-gem 'grape'
+gem 'grape', '~> 1.2.3'
+gem 'grape-entity', '~> 0.7.1'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

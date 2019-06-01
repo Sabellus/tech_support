@@ -1,0 +1,24 @@
+GET /users/sign_in
+GET /users/sign_up
+
+!авторизация:
+
+GET /
+клиент:
+    - создать сообщение
+    - мои сообщения
+менеджер:
+    - взять задачу(сообщение)
+    - мои задачи
+
+GET /ticket_conversation/:id
+- просмотр диалога
+- оставить сообщение
+
+PUT /ticket_conversation/:id
+- status
+- добавляются message
+
+POST /ticket_conversation/
+
+

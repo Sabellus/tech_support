@@ -11,7 +11,7 @@
 #
 
 class Message < ApplicationRecord
-  belongs_to :ticket_conversation
+  belongs_to :ticket_conversation, touch: true
   belongs_to :user
   validates :value, presence: true
 end

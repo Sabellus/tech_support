@@ -37,6 +37,18 @@ class User < ApplicationRecord
     client: 1,
     admin: 2,
   }
+
+  def ticket_conversations
+    TicketConversation.where('client_id = ? OR manager_id = ?', id, id)
+  end
+
+  def group_conversations
+    GroupConversation.joins(:group_conversation_users).where(group_conversation_users: { user_id: id })
+  end
+
+  def client_conversations
+    ClientConversation.where('from_client_id = ? OR to_client_id = ?', id, id)
+  end
   
   def name
     "#{first_name} #{last_name}"

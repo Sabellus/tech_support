@@ -10,4 +10,5 @@
 
 class GroupConversation < ApplicationRecord
   belongs_to :author
+  has_many :group_conversation_users
 end
