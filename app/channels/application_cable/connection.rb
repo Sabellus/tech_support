@@ -13,7 +13,7 @@ module ApplicationCable
         authorization_header = request.headers["Authorization"]
         token = authorization_header.split(' ').last
         email, authentication_token = Base64.decode64(token).split(':')
-
+        
         user = email && User.find_by(email: email)
         if user && Devise.secure_compare(user.authentication_token, authentication_token)
           user

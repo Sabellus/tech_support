@@ -15,5 +15,12 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require turbolinks
+
 //= require_tree .
 
+Notification.requestPermission()
+if (Notification.permission == "default"){
+  Notification.requestPermission()
+}
+
+// var e = new Notification ("Уведомление", {body: "Привет"})

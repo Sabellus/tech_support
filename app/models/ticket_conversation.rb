@@ -12,9 +12,9 @@
 
 class TicketConversation < ApplicationRecord
   enum status: {
-    "Создан": 0,
-    "В обработке": 1,
-    "Завершен": 2
+    "created": 0,
+    "inprogress": 1,
+    "completed": 2
   }
   
   audited

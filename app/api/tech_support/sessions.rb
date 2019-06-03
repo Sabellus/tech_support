@@ -24,7 +24,7 @@ module TechSupport
         requires :password_confirmation, type: String
       end
     end
-    post :signup do      
+    post :signup do     
       user = User.new(permitted_params[:user])
       if user.save
         Entities::UserEntity.represent(user, full: true)

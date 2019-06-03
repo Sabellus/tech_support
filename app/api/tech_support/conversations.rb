@@ -13,8 +13,15 @@ module TechSupport
           # *@user.group_conversations,
           # *@user.client_conversations
         ]
+        Entities::ConversationEntity.represent(result,  type: :short)
+      end
 
-        Entities::ConversationEntity.represent(result)
+      params do
+        requires :id, type: Integer        
+      end
+      get ':id' do
+        ticket_conversation = TicketConversation.find(permitted_params[:id])
+        Entities::ConversationEntity.represent(ticket_conversation)        
       end
 
       params do

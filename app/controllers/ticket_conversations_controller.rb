@@ -49,13 +49,13 @@ class TicketConversationsController < ApplicationController
     # @ticket_conversation = TicketConversation.new(ticket_conversation_params.merge(
     #   client_id: current_user.id # формируем диалог с текущим клиентом
     # ))
+    
     ticket_params = ticket_conversation_params.merge(client_id: current_user.id)
     ticket_params[:messages_attributes].each { |k, v| ticket_params[:messages_attributes][k][:user_id] = current_user.id }
-
     @ticket_conversation = TicketConversation.new(ticket_params)
-    # binding.pry
+
     respond_to do |format|
-      if @ticket_conversation.save
+      if @ticket_conversation.save      
         format.html { redirect_to @ticket_conversation, notice: 'Ticket conversation was successfully created.' }
         format.json { render :show, status: :created, location: @ticket_conversation }
       else
@@ -73,9 +73,17 @@ class TicketConversationsController < ApplicationController
     # помечаем новые сообщения диалога текущим пользователем
     ticket_params[:messages_attributes].each { |k, v| ticket_params[:messages_attributes][k][:user_id] = current_user.id }
     
-    # binding.pry
+   
     respond_to do |format|
       if @ticket_conversation.update(ticket_params)
+        if !ticket_params["messages_attributes"].blank?
+          
+          mes = {
+            value: ticket_params["messages_attributes"][ticket_params["messages_attributes"].keys[0]]["value"],
+            email: current_user.email
+          }
+          ActionCable.server.broadcast("conversation:#{@ticket_conversation.id}", mes)
+        end
         format.html { redirect_to edit_ticket_conversation_path, notice: 'Ticket conversation was successfully updated.' }
         format.json { render :show, status: :ok, location: @ticket_conversation }
       else

@@ -46,5 +46,5 @@ class TechSupportAPI < Grape::API
 
   mount TechSupport::Conversations
   mount TechSupport::Sessions
-  mount TechSupport::TechMessages
+  mount TechSupport::SupportConversations
 end

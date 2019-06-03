@@ -19,6 +19,9 @@ module TechSupport
     config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
     config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
 
+    config.autoload_paths += %W({config.root}/lib)
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+
     config.action_cable.disable_request_forgery_protection = true
 
     # Settings in config/environments/* take precedence over those specified here.
