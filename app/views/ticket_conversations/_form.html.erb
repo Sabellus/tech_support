@@ -64,6 +64,16 @@
           <%= message.text_field :value, class: "form-control" %>
           
         </div>
+       
+        <% if !message.object.file.attached? & message.object.value.blank?%>
+          <div class="col-sm-10">
+            
+            <%= message.file_field :file %>
+          </div>
+        <% else %>          
+          <%= link_to "Посмотреть файл", message.object.file if message.object.file.attached? %>
+        <% end %>
+
       </div>
     <% end %>
   </div> 

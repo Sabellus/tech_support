@@ -14,6 +14,7 @@ class Message < ApplicationRecord
   belongs_to :ticket_conversation, touch: true
   belongs_to :user
   validates :value, presence: true
+  has_one_attached :file
 
   # after_create :send_to_channels
 

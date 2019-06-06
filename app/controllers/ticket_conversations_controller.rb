@@ -109,7 +109,14 @@ class TicketConversationsController < ApplicationController
 
   private
     def set_ticket_conversation
-      @ticket_conversation = TicketConversation.includes(messages: [:user]).order('messages.created_at ASC').find(params[:id])
+      @ticket_conversation = TicketConversation.includes(
+        messages: {
+          user: [],
+          file_attachment: [
+            :blob
+          ]
+        }
+      ).order('messages.created_at ASC').find(params[:id])
     end
 
     def ticket_conversation_params
@@ -121,11 +128,11 @@ class TicketConversationsController < ApplicationController
       if current_user.manager?
         # разрешаем менять менеджера, статус, писать новые сообщение
         # тут отсекается все, кроме перечисленных полей
-        params.require(:ticket_conversation).permit(:manager_id, :status, messages_attributes: [:value])
+        params.require(:ticket_conversation).permit(:manager_id, :status, messages_attributes: [:value, :file])
       else
         # разрешаем менять тему, писать новые сообщение
         # тут отсекается все, кроме перечисленных полей
-        params.require(:ticket_conversation).permit(messages_attributes: [:value])
+        params.require(:ticket_conversation).permit(messages_attributes: [:value, :file])
       end
     end
 end
